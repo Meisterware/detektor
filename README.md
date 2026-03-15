@@ -165,46 +165,6 @@ The initial milestone focuses on implementing the **OpenPAKT v0.1 core specifica
 
 ---
 
-## Contributing
-
-We welcome contributions that improve:
-
-* scanner capabilities
-* detection rules
-* documentation
-* example scenarios
-* CI integration workflows
-
-Please read [CONTRIBUTING](CONTRIBUTING.md) before submitting pull requests.
-
----
-
-## Security
-
-If you discover a vulnerability in Detektor, please report it privately.
-
-See [SECURITY](SECURITY.md) for reporting instructions.
-
----
-
-## Governance
-
-Project governance, decision making, and release policies are described in [GOVERNANCE](GOVERNANCE.md).
-
----
-
-## Code of Conduct
-
-All contributors are expected to follow the project's [Code of Conduct](CODE_OF_CONDUCT.md).
-
----
-
-## License
-
-This project is licensed under the **[Apache 2.0 License](LICENSE)**.
-
----
-
 ## Organisation
 
 Detektor is developed by **Meisterware** as part of the broader effort to improve **AI agent security tooling and standards**.
