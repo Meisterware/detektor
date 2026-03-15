@@ -1,10 +1,10 @@
 # Detektor
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-[![OpenPAKT](https://img.shields.io/badge/OpenPAKT-v0.1-green)](https://github.com/meisterware/openpakt)
+[![OpenPAKT](https://img.shields.io/badge/OpenPAKT-v0.1-green)](https://github.com/Meisterware/openpakt-spec)
 [![Status](https://img.shields.io/badge/status-early%20development-orange)]()
-[![Issues](https://img.shields.io/github/issues/meisterware/detektor)](https://github.com/meisterware/detektor/issues)
-[![PRs](https://img.shields.io/github/issues-pr/meisterware/detektor)](https://github.com/meisterware/detektor/pulls)
+[![Issues](https://img.shields.io/github/issues/meisterware/detektor)](https://github.com/Meisterware/detektor/issues)
+[![PRs](https://img.shields.io/github/issues-pr/meisterware/detektor)](https://github.com/Meisterware/detektor/pulls)
 
 **Detektor** is a lightweight **AI agent security scanner** designed for **CI pipelines**.
 
