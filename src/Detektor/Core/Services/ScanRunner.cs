@@ -36,6 +36,7 @@ public sealed class ScanRunner
             "reporting not implemented yet"
         };
 
-        return Task.FromResult(new ScanResult(0, messages));
+        return Task.FromResult(new ScanResult(1, messages));
     }
 }
+
