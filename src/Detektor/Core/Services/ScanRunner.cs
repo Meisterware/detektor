@@ -11,6 +11,20 @@ public sealed class ScanRunner
         ArgumentException.ThrowIfNullOrWhiteSpace(request.TargetPath);
 
         var resolvedTargetPath = Path.GetFullPath(request.TargetPath);
+
+        if (!File.Exists(resolvedTargetPath) && !Directory.Exists(resolvedTargetPath))
+        {
+            var failureMessages = new[]
+            {
+                "Detektor CLI started",
+                $"target received: {request.TargetPath}",
+                $"target path resolved: {resolvedTargetPath}",
+                "target path does not exist"
+            };
+
+            return Task.FromResult(new ScanResult(1, failureMessages));
+        }
+
         var messages = new[]
         {
             "Detektor CLI started",
