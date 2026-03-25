@@ -108,7 +108,7 @@ The OpenPAKT report format provides a **stable contract for CI pipelines and sec
 
 Detektor evolves alongside the **OpenPAKT specification**, expanding scanning capabilities in stages while keeping the core architecture minimal and extensible.
 
-### v0.1 — Detektor MVP
+### v0.1 — Detektor MVP (🚧 In-Progress)
 
 Initial release providing a minimal security scanner capable of producing OpenPAKT-compliant reports.
 
