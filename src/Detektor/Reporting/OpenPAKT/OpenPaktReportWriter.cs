@@ -10,11 +10,15 @@ public sealed class OpenPaktReportWriter
     {
         var report = new OpenPaktReport();
 
-        report.Findings.AddRange(findings.Select(finding => new OpenPaktFinding
-        {
-            RuleId = finding.RuleId,
-            Message = finding.Message
-        }));
+        report.Findings.AddRange(
+            findings
+                .OrderBy(finding => finding.RuleId, StringComparer.Ordinal)
+                .ThenBy(finding => finding.Message, StringComparer.Ordinal)
+                .Select(finding => new OpenPaktFinding
+                {
+                    RuleId = finding.RuleId,
+                    Message = finding.Message
+                }));
 
         return OpenPaktJsonSerializer.Serialize(report);
     }
