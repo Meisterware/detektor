@@ -1,10 +1,26 @@
+using Detektor.Artifacts;
 using Detektor.Core.Pipeline;
 
 namespace Detektor.Core.Services;
 
 public sealed class ScanRunner
 {
+    private readonly ArtifactLoader _artifactLoader;
+
+    public ScanRunner()
+        : this(new ArtifactLoader())
+    {
+    }
+
+    public ScanRunner(ArtifactLoader artifactLoader)
+    {
+        _artifactLoader = artifactLoader ?? throw new ArgumentNullException(nameof(artifactLoader));
+    }
+
     public Task<ScanResult> RunAsync(ScanRequest request, CancellationToken cancellationToken = default)
+        => RunInternalAsync(request, cancellationToken);
+
+    private async Task<ScanResult> RunInternalAsync(ScanRequest request, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -22,8 +38,10 @@ public sealed class ScanRunner
                 "target path does not exist"
             };
 
-            return Task.FromResult(new ScanResult(1, failureMessages));
+            return new ScanResult(1, failureMessages);
         }
+
+        var artifacts = await _artifactLoader.LoadAsync(resolvedTargetPath, cancellationToken);
 
         var messages = new[]
         {
@@ -31,12 +49,11 @@ public sealed class ScanRunner
             $"target received: {request.TargetPath}",
             $"target path resolved: {resolvedTargetPath}",
             "scan pipeline initialized",
-            "artifact loading not implemented yet",
+            $"artifact loading completed: {artifacts.Count} artifact(s) discovered",
             "rules not implemented yet",
             "reporting not implemented yet"
         };
 
-        return Task.FromResult(new ScanResult(1, messages));
+        return new ScanResult(1, messages);
     }
 }
-

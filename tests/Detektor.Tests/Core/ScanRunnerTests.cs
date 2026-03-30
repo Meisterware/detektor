@@ -15,7 +15,8 @@ public sealed class ScanRunnerTests
         Assert.Equal(1, result.ExitCode);
         Assert.Contains(result.Messages, message => message.StartsWith("target path resolved:", StringComparison.Ordinal));
         Assert.Contains("scan pipeline initialized", result.Messages);
-        Assert.Contains("artifact loading not implemented yet", result.Messages);
+        Assert.Contains(result.Messages, message => message.StartsWith("artifact loading completed:", StringComparison.Ordinal));
+        Assert.Contains("rules not implemented yet", result.Messages);
     }
 
     [Fact]
@@ -31,4 +32,3 @@ public sealed class ScanRunnerTests
         Assert.Contains("target path does not exist", result.Messages);
     }
 }
-
