@@ -19,11 +19,18 @@ internal static class Program
 
             return await rootCommand.Parse(args).InvokeAsync();
         }
-        catch (Exception ex)
+        catch (Exception exception) when (IsRecoverableException(exception))
         {
             Console.Error.WriteLine("Detektor CLI failed unexpectedly.");
-            Console.Error.WriteLine(ex.ToString());
             return 1;
         }
     }
+
+    private static bool IsRecoverableException(Exception exception)
+        => exception is not OutOfMemoryException
+            and not StackOverflowException
+            and not AccessViolationException
+            and not AppDomainUnloadedException
+            and not BadImageFormatException
+            and not InvalidProgramException;
 }
