@@ -8,13 +8,29 @@ internal static class Program
 {
     public static async Task<int> Main(string[] args)
     {
-        var scanRunner = new ScanRunner();
-
-        var rootCommand = new RootCommand("Detektor is a minimal, deterministic CLI scanner for AI agent security.")
+        try
         {
-            ScanCommand.Create(scanRunner)
-        };
+            var scanRunner = new ScanRunner();
 
-        return await rootCommand.Parse(args).InvokeAsync();
+            var rootCommand = new RootCommand("Detektor is a minimal, deterministic CLI scanner for AI agent security.")
+            {
+                ScanCommand.Create(scanRunner)
+            };
+
+            return await rootCommand.Parse(args).InvokeAsync();
+        }
+        catch (Exception exception) when (IsRecoverableException(exception))
+        {
+            Console.Error.WriteLine("Detektor CLI failed unexpectedly.");
+            return 1;
+        }
     }
+
+    private static bool IsRecoverableException(Exception exception)
+        => exception is not OutOfMemoryException
+            and not StackOverflowException
+            and not AccessViolationException
+            and not AppDomainUnloadedException
+            and not BadImageFormatException
+            and not InvalidProgramException;
 }
