@@ -19,9 +19,10 @@ internal static class Program
 
             return await rootCommand.Parse(args).InvokeAsync();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             Console.Error.WriteLine("Detektor CLI failed unexpectedly.");
+            Console.Error.WriteLine(ex.ToString());
             return 1;
         }
     }
