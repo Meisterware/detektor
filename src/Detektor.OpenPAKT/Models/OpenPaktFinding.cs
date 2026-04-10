@@ -2,9 +2,13 @@ namespace Detektor.OpenPAKT.Models;
 
 public sealed class OpenPaktFinding
 {
-    public string RuleId { get; init; } = string.Empty;
+    public string Id { get; init; } = string.Empty;
 
-    public string Message { get; init; } = string.Empty;
+    public string Type { get; init; } = string.Empty;
 
-    public string Severity { get; init; } = Constants.SeverityLevels.Info;
+    public string Severity { get; init; } = Constants.SeverityLevels.Informational;
+
+    public string Component { get; init; } = string.Empty;
+
+    public string Description { get; init; } = string.Empty;
 }

@@ -12,12 +12,16 @@ public sealed class OpenPaktReportWriter
 
         report.Findings.AddRange(
             findings
-                .OrderBy(finding => finding.RuleId, StringComparer.Ordinal)
-                .ThenBy(finding => finding.Message, StringComparer.Ordinal)
+                .OrderBy(finding => finding.Component, StringComparer.Ordinal)
+                .ThenBy(finding => finding.Id, StringComparer.Ordinal)
+                .ThenBy(finding => finding.Description, StringComparer.Ordinal)
                 .Select(finding => new OpenPaktFinding
                 {
-                    RuleId = finding.RuleId,
-                    Message = finding.Message
+                    Id = finding.Id,
+                    Type = finding.Type,
+                    Severity = finding.Severity,
+                    Component = finding.Component,
+                    Description = finding.Description
                 }));
 
         return OpenPaktJsonSerializer.Serialize(report);
