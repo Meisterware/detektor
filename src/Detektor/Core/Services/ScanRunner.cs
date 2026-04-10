@@ -1,5 +1,7 @@
 using Detektor.Artifacts;
 using Detektor.Core.Pipeline;
+using Detektor.Findings;
+using Detektor.Rules;
 using System.Text.Json;
 using YamlDotNet.Core;
 
@@ -8,15 +10,23 @@ namespace Detektor.Core.Services;
 public sealed class ScanRunner
 {
     private readonly ArtifactLoader _artifactLoader;
+    private readonly RuleEngine _ruleEngine;
 
     public ScanRunner()
-        : this(new ArtifactLoader())
+        : this(
+            new ArtifactLoader(),
+            new RuleEngine(
+            [
+                new PromptInjectionRule(),
+                new ToolPermissionValidationRule()
+            ]))
     {
     }
 
-    public ScanRunner(ArtifactLoader artifactLoader)
+    public ScanRunner(ArtifactLoader artifactLoader, RuleEngine ruleEngine)
     {
         _artifactLoader = artifactLoader ?? throw new ArgumentNullException(nameof(artifactLoader));
+        _ruleEngine = ruleEngine ?? throw new ArgumentNullException(nameof(ruleEngine));
     }
 
     public Task<ScanResult> RunAsync(ScanRequest request, CancellationToken cancellationToken = default)
@@ -53,6 +63,8 @@ public sealed class ScanRunner
                 request.TargetPath);
         }
 
+        var findings = _ruleEngine.Evaluate(artifacts);
+
         var messages = new[]
         {
             "Detektor CLI started",
@@ -60,11 +72,11 @@ public sealed class ScanRunner
             $"target path resolved: {resolvedTargetPath}",
             "scan pipeline initialized",
             $"artifact loading completed: {artifacts.Count} artifact(s) discovered",
-            "rules not implemented yet",
+            $"rule evaluation completed: {findings.Count} finding(s) produced",
             "reporting not implemented yet"
         };
 
-        return new ScanResult(1, resolvedTargetPath, artifacts.Count, messages);
+        return new ScanResult(0, resolvedTargetPath, artifacts.Count, messages, findings);
     }
 
     private static ScanResult CreateFailureResult(string resolvedTargetPath, string failureMessage, string originalTargetPath)
@@ -77,7 +89,7 @@ public sealed class ScanRunner
             failureMessage
         };
 
-        return new ScanResult(1, resolvedTargetPath, 0, messages);
+        return new ScanResult(1, resolvedTargetPath, 0, messages, Array.Empty<Finding>());
     }
 
     private static bool IsExpectedArtifactLoadException(Exception exception)
