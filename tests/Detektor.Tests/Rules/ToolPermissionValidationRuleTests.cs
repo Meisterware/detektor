@@ -1,5 +1,6 @@
 using System.Text.Json.Nodes;
 using Detektor.Artifacts;
+using Detektor.Findings;
 using Detektor.Rules;
 
 namespace Detektor.Tests.Rules;
@@ -23,9 +24,10 @@ public sealed class ToolPermissionValidationRuleTests
 
         var finding = Assert.Single(_rule.Evaluate(artifact));
 
-        Assert.Equal("tool_abuse_privilege_escalation", finding.Type);
-        Assert.Equal("high", finding.Severity);
+        Assert.Equal(FindingTaxonomy.ToolAbusePrivilegeEscalation, finding.Type);
+        Assert.Equal(FindingSeverity.High, finding.Severity);
         Assert.False(string.IsNullOrWhiteSpace(finding.Evidence.Summary));
+        Assert.Equal("artifact.json:$.tools.shell.enabled", finding.Evidence.Location);
     }
 
     [Fact]
@@ -44,8 +46,9 @@ public sealed class ToolPermissionValidationRuleTests
 
         var finding = Assert.Single(_rule.Evaluate(artifact));
 
-        Assert.Equal("tool_abuse_privilege_escalation", finding.Type);
-        Assert.Equal("critical", finding.Severity);
+        Assert.Equal(FindingTaxonomy.ToolAbusePrivilegeEscalation, finding.Type);
+        Assert.Equal(FindingSeverity.Critical, finding.Severity);
+        Assert.Equal("artifact.json:$.tools.shell.allowlist", finding.Evidence.Location);
     }
 
     [Fact]

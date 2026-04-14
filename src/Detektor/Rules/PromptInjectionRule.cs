@@ -36,8 +36,8 @@ public sealed class PromptInjectionRule : IRule
 
                 yield return new Finding(
                     Id: $"{Id}:{artifact.Path}:{NormalizeIdentifier(phrase)}",
-                    Type: "prompt_injection",
-                    Severity: "high",
+                    Type: FindingTaxonomy.PromptInjection,
+                    Severity: FindingSeverity.High,
                     Component: artifact.Path,
                     Description: $"Artifact contains a prompt injection phrase: '{phrase}'.",
                     Evidence: new Evidence(
