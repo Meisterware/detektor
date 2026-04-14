@@ -52,7 +52,7 @@ public sealed class ToolPermissionValidationRule : IRule
                 yield return CreateFinding(
                     artifact,
                     tool.Key,
-                    "critical",
+                    FindingSeverity.Critical,
                     "empty-allowlist",
                     $"Tool '{tool.Key}' is enabled with an empty allowlist.",
                     "$.tools." + tool.Key + ".allowlist",
@@ -68,7 +68,7 @@ public sealed class ToolPermissionValidationRule : IRule
                 yield return CreateFinding(
                     artifact,
                     tool.Key,
-                    "high",
+                    FindingSeverity.High,
                     "empty-allowlist",
                     $"Tool '{tool.Key}' declares an empty allowlist.",
                     "$.tools." + tool.Key + ".allowlist",
@@ -84,7 +84,7 @@ public sealed class ToolPermissionValidationRule : IRule
                 yield return CreateFinding(
                     artifact,
                     tool.Key,
-                    "high",
+                    FindingSeverity.High,
                     "enabled-without-allowlist",
                     $"Tool '{tool.Key}' is enabled without an allowlist restriction.",
                     "$.tools." + tool.Key + ".enabled",
@@ -106,7 +106,7 @@ public sealed class ToolPermissionValidationRule : IRule
     {
         return new Finding(
             Id: $"{Id}:{artifact.Path}:{toolName}:{findingSuffix}",
-            Type: "tool_abuse_privilege_escalation",
+            Type: FindingTaxonomy.ToolAbusePrivilegeEscalation,
             Severity: severity,
             Component: artifact.Path,
             Description: description,

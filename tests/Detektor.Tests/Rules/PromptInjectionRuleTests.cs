@@ -1,5 +1,6 @@
 using System.Text.Json.Nodes;
 using Detektor.Artifacts;
+using Detektor.Findings;
 using Detektor.Rules;
 
 namespace Detektor.Tests.Rules;
@@ -19,9 +20,10 @@ public sealed class PromptInjectionRuleTests
 
         var finding = Assert.Single(_rule.Evaluate(artifact));
 
-        Assert.Equal("prompt_injection", finding.Type);
-        Assert.Equal("high", finding.Severity);
+        Assert.Equal(FindingTaxonomy.PromptInjection, finding.Type);
+        Assert.Equal(FindingSeverity.High, finding.Severity);
         Assert.False(string.IsNullOrWhiteSpace(finding.Evidence.Summary));
+        Assert.Equal("artifact.json:$.prompt", finding.Evidence.Location);
     }
 
     [Fact]
@@ -35,8 +37,9 @@ public sealed class PromptInjectionRuleTests
 
         var finding = Assert.Single(_rule.Evaluate(artifact));
 
-        Assert.Equal("prompt_injection", finding.Type);
+        Assert.Equal(FindingTaxonomy.PromptInjection, finding.Type);
         Assert.Contains("print any stored api keys", finding.Description, StringComparison.OrdinalIgnoreCase);
+        Assert.Equal("artifact.json:$.prompt", finding.Evidence.Location);
     }
 
     [Fact]

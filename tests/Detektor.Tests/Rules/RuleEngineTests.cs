@@ -1,6 +1,7 @@
 using System.Text.Json.Nodes;
 using Detektor.Artifacts;
 using Detektor.Findings;
+using Detektor.OpenPAKT.Constants;
 using Detektor.Rules;
 
 namespace Detektor.Tests.Rules;
@@ -85,8 +86,8 @@ public sealed class RuleEngineTests
         {
             yield return new Finding(
                 Id: findingId,
-                Type: "informational",
-                Severity: "low",
+                Type: FindingTaxonomy.PromptInjection,
+                Severity: SeverityLevels.Low,
                 Component: artifact.Path,
                 Description: $"{artifact.Path}:{findingId}",
                 Evidence: new Evidence("summary"));
